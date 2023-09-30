@@ -15,8 +15,5 @@
     "project": true,
     "tsconfigRootDir": "./tsconfig.json"
   },
-  "parser": "@typescript-eslint/parser",
-  "rules": {
-    "sort-imports": "error"
-  }
+  "parser": "@typescript-eslint/parser"
 }
