@@ -44,28 +44,4 @@ export class UserController {
         .json({ message: "Internal server error" });
     }
   }
-
-  async createFakeUser(req: Request, res: Response) {
-    try {
-      const repository = AppDataSource.getRepository(User);
-      const userData = {
-        name: "User 1",
-        email: "user1@example.com",
-        password: "pass1",
-      };
-      const { name, email, password } = createUserSchema.parse(userData);
-
-      if (!(await repository.findOne({ where: { email } }))) {
-        const user = repository.create({ name, email, password });
-
-        await repository.save(user);
-      }
-
-      res.status(StatusCodes.OK).json({ user: userData });
-    } catch {
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
-    }
-  }
 }

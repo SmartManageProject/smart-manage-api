@@ -6,19 +6,6 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/seed": {
-      "post": {
-        "summary": "Create fake User",
-        "responses": {
-          "200": {
-            "description": "Fake User created",
-            "content": {
-              "applicaiton/json": {}
-            }
-          }
-        }
-      }
-    },
     "/authenticate": {
       "post": {
         "summary": "Authenticate User",
