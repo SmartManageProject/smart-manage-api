@@ -6,6 +6,7 @@ import authMiddleware from "./app/middlewares/authMiddleware";
 const routes = Router();
 
 routes.post("/authenticate", new AuthController().authenticate);
+routes.post("/seed", new UserController().createFakeUser);
 
 routes.use(authMiddleware);
 
