@@ -4,6 +4,7 @@ import { ZodError, z } from "zod";
 
 import User from "../models/User";
 import { AppDataSource } from "../../database";
+import { FindOperator, ILike } from "typeorm";
 
 const createUserSchema = z.object({
   name: z.string(),
@@ -39,6 +40,34 @@ export class UserController {
           .status(StatusCodes.BAD_REQUEST)
           .json({ message: "Validation error", errors: e.issues });
       }
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: "Internal server error" });
+    }
+  }
+  async list(req: Request, res: Response) {
+    const { search } = req.query;
+    const whereConditions: {
+      where?: Array<{ [key: string]: FindOperator<string> }>;
+    } = {};
+
+    if (search) {
+      whereConditions.where = [
+        { name: ILike(`%${search as string}%`) },
+        { email: ILike(`%${search as string}%`) },
+      ];
+    }
+
+    try {
+      const repository = AppDataSource.getRepository(User);
+      const [users, count] = await repository.findAndCount({
+        order: {
+          name: "ASC",
+        },
+        ...whereConditions,
+      });
+      return res.status(StatusCodes.OK).json({ count, users });
+    } catch {
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });

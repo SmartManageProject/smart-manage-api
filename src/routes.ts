@@ -10,4 +10,6 @@ routes.post("/users", new UserController().create);
 
 routes.use(authMiddleware);
 
+routes.get("/users", new UserController().list);
+
 export default routes;
