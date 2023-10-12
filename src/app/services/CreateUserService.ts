@@ -1,4 +1,5 @@
 import { AppDataSource } from "../../database";
+import EmailAlreadyExistsException from "../exceptions/EmailAlreadyExistsException";
 import User from "../models/User";
 
 type CreateUserRequest = {
@@ -13,7 +14,7 @@ export class CreateUserService {
     const userExists = await repository.findOne({ where: { email } });
 
     if (userExists) {
-      throw new Error("Email already exists");
+      throw new EmailAlreadyExistsException();
     }
 
     const user = repository.create({ name, email, password });
