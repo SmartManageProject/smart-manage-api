@@ -7,6 +7,16 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 
+export const UserRoles = [
+  "frontend",
+  "backend",
+  "fullstack",
+  "manager",
+  "productOwner",
+] as const;
+
+export type UserRole = (typeof UserRoles)[number];
+
 @Entity("users")
 export default class User {
   @PrimaryGeneratedColumn("uuid")
@@ -20,6 +30,13 @@ export default class User {
 
   @Column({ select: false })
   password: string;
+
+  @Column({
+    type: "enum",
+    enum: UserRoles,
+    default: "fullstack",
+  })
+  role: UserRole;
 
   @BeforeInsert()
   @BeforeUpdate()

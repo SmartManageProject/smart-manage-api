@@ -5,20 +5,22 @@ import { ZodError, z } from "zod";
 import { GetAllUsersService } from "../services/GetAllUsersService";
 import { CreateUserService } from "../services/CreateUserService";
 import ValidationException from "../exceptions/ValidationException";
+import { UserRoles } from "../models/User";
 
 const createUserSchema = z.object({
   name: z.string().nonempty(),
   email: z.string().email(),
   password: z.string().nonempty(),
+  role: z.enum(UserRoles).default("fullstack"),
 });
 
 export class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, email, password } = createUserSchema.parse(req.body);
+      const { name, email, password, role } = createUserSchema.parse(req.body);
 
       const service = new CreateUserService();
-      const user = await service.execute({ name, email, password });
+      const user = await service.execute({ name, email, password, role });
 
       return res.status(StatusCodes.CREATED).json({
         id: user.id,
