@@ -120,8 +120,27 @@
         "parameters": [
           {
             "name": "search",
+            "schema": {
+              "type": "string"
+            },
             "in": "query",
             "description": "An optional search term to filter users by <b>name</b> or <b>email</b>."
+          },
+          {
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "description": "An optional page number for pagination."
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "description": "An optional limit to control the number of results per page."
           }
         ],
         "responses": {
