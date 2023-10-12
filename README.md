@@ -2,6 +2,19 @@
 
 This is a simple guide to set up and run a SmartManage API locally.
 
+### Prerequisites
+Before you begin, ensure you have the following software installed on your machine:
+
+- [Docker](https://docs.docker.com/desktop/install/windows-install/)
+- [Node.js](https://nodejs.org/en)
+
+### Dependencies
+To install the project dependencies, run the following command in your project's root directory:
+```bash
+npm install
+```
+This will install all the required Node.js packages and dependencies.
+
 ### Environment variables
 Before starting the application, you need to configure some environment variables. Create a .env file in the project's root directory and add the following variables:
 ```dosini
