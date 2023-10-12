@@ -4,7 +4,7 @@ import { ZodError, z } from "zod";
 
 import User from "../models/User";
 import { AppDataSource } from "../../database";
-import { FindOperator, ILike } from "typeorm";
+import { GetAllUsersService } from "../services/GetAllUsersService";
 
 const createUserSchema = z.object({
   name: z.string(),
@@ -46,26 +46,14 @@ export class UserController {
     }
   }
   async list(req: Request, res: Response) {
-    const { search } = req.query;
-    const whereConditions: {
-      where?: Array<{ [key: string]: FindOperator<string> }>;
-    } = {};
-
-    if (search) {
-      whereConditions.where = [
-        { name: ILike(`%${search as string}%`) },
-        { email: ILike(`%${search as string}%`) },
-      ];
-    }
-
     try {
-      const repository = AppDataSource.getRepository(User);
-      const [users, count] = await repository.findAndCount({
-        order: {
-          name: "ASC",
-        },
-        ...whereConditions,
-      });
+      const search = req.query.search as string;
+      const page = Number(req.query.page) || undefined;
+      const limit = Number(req.query.limit) || undefined;
+
+      const service = new GetAllUsersService();
+      const [users, count] = await service.execute({ search, page, limit });
+
       return res.status(StatusCodes.OK).json({ count, users });
     } catch {
       return res
