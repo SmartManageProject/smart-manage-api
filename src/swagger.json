@@ -60,7 +60,6 @@
         "summary": "Create a User",
         "description": "",
         "tags": ["Users"],
-        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -108,6 +107,71 @@
             }
           }
         }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "List Users",
+        "description": "This route allows you to list all users in the system, optionally filtering by search criteria.",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "search",
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "An optional search term to filter users by <b>name</b> or <b>email</b>."
+          },
+          {
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "description": "An optional page number for pagination."
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "description": "An optional limit to control the number of results per page."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "example": "538c8eea-c7f3-4a5b-a155-6e57b3547f99"
+                      },
+                      "name": {
+                        "example": "John Doe"
+                      },
+                      "email": {
+                        "example": "john.doe@email.com"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
       }
     }
   },
@@ -118,6 +182,30 @@
       },
       "Unauthorized": {
         "description": "Unauthorized"
+      },
+      "ListOfUsers": {
+        "description": "A list of Users",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": "538c8eea-c7f3-4a5b-a155-6e57b3547f99"
+                  },
+                  "name": {
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "example": "john.doe@email.com"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
 
