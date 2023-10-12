@@ -12,7 +12,9 @@ export default (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(StatusCodes.UNAUTHORIZED);
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "Missing authorization token" });
   }
 
   const [, token] = authorization.split(" ");
@@ -25,6 +27,8 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
     return next();
   } catch {
-    return res.status(StatusCodes.UNAUTHORIZED);
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "Invalid or expired token" });
   }
 };
