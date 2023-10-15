@@ -1,13 +1,7 @@
 import { AppDataSource } from "../../database";
 import EmailAlreadyExistsException from "../exceptions/EmailAlreadyExistsException";
-import User, { UserRole } from "../models/User";
-
-type CreateUserRequest = {
-  name: string;
-  email: string;
-  password: string;
-  role: UserRole;
-};
+import User from "../models/User";
+import { CreateUserRequest } from "../schemas/userSchema";
 
 export class CreateUserService {
   async execute({ name, email, password, role }: CreateUserRequest) {

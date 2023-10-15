@@ -201,7 +201,7 @@
                   "description": {
                     "type": "string"
                   },
-                  "members": {
+                  "membersId": {
                     "type": "array",
                     "items": {
                       "type": "string"
@@ -214,7 +214,7 @@
                   "value": {
                     "name": "Fake project name",
                     "description": "Fake project description",
-                    "members": [
+                    "membersId": [
                       "bb894d36-2fc1-45ca-bb9d-06d8222ecd17",
                       "483393de-f5ba-4651-be91-877913a6e2be"
                     ]
