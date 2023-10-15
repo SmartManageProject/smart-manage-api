@@ -25,6 +25,7 @@ routes.post(
   validateSchema(createProjectSchema),
   new ProjectController().create,
 );
+routes.get("/projects", new ProjectController().list);
 
 routes.use(errorMiddleware);
 
