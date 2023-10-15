@@ -177,6 +177,82 @@
           }
         }
       }
+    },
+    "/projects": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Create a Project",
+        "description": "",
+        "tags": ["Projects"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "members": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "project": {
+                  "value": {
+                    "name": "Fake project name",
+                    "description": "Fake project description",
+                    "members": [
+                      "bb894d36-2fc1-45ca-bb9d-06d8222ecd17",
+                      "483393de-f5ba-4651-be91-877913a6e2be"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "538c8eea-c7f3-4a5b-a155-6e57b3547f99"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Project created successfully"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -210,6 +286,23 @@
       "UserRole": {
         "type": "string",
         "enum": ["frontend", "backend", "fullstack", "manager", "productOwner"]
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
       }
     },
     "securitySchemes": {
