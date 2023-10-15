@@ -3,9 +3,24 @@ import { UserRoles } from "../models/User";
 
 export const createUserSchema = z.object({
   body: z.object({
-    name: z.string().nonempty(),
-    email: z.string().email(),
-    password: z.string().nonempty(),
+    name: z
+      .string({
+        required_error: "Name is required.",
+        invalid_type_error: "Name must be a string",
+      })
+      .min(1, { message: "Name must not be empty." }),
+    email: z
+      .string({
+        required_error: "Email is required.",
+        invalid_type_error: "Email must be a string",
+      })
+      .email(),
+    password: z
+      .string({
+        required_error: "Password is required.",
+        invalid_type_error: "Password must be a string",
+      })
+      .min(1, { message: "Password must not be empty." }),
     role: z.enum(UserRoles).default("fullstack"),
   }),
 });
