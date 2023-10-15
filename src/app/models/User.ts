@@ -4,8 +4,10 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import Project from "./Project";
 
 export const UserRoles = [
   "frontend",
@@ -43,4 +45,7 @@ export default class User {
   hashPassword() {
     this.password = bcrypt.hashSync(this.password, 10);
   }
+
+  @ManyToMany(() => Project, (project) => project.members)
+  projects: Project[];
 }
