@@ -14,6 +14,12 @@ export class GetAllUsersService {
     const repository = AppDataSource.getRepository(User);
 
     const [users, count] = await repository.findAndCount({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+      },
       order: { name: "ASC" },
       where: [{ name: ILike(`%${search}%`) }, { email: ILike(`%${search}%`) }],
       take: limit,
