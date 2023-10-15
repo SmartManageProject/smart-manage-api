@@ -17,8 +17,6 @@ export const UserRoles = [
   "productOwner",
 ] as const;
 
-export type UserRole = (typeof UserRoles)[number];
-
 @Entity("users")
 export default class User {
   @PrimaryGeneratedColumn("uuid")
@@ -38,7 +36,7 @@ export default class User {
     enum: UserRoles,
     default: "fullstack",
   })
-  role: UserRole;
+  role: (typeof UserRoles)[number];
 
   @BeforeInsert()
   @BeforeUpdate()

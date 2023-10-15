@@ -1,12 +1,7 @@
 import { AppDataSource } from "../../database";
 import User from "../models/User";
 import { ILike } from "typeorm";
-
-type GetAllUsersRequest = {
-  search?: string;
-  page?: number;
-  limit?: number;
-};
+import { GetAllUsersRequest } from "../schemas/userSchema";
 
 export class GetAllUsersService {
   async execute({ search = "", page = 1, limit = 10 }: GetAllUsersRequest) {
