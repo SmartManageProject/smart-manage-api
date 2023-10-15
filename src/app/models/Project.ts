@@ -19,6 +19,16 @@ export default class Project {
   description: string;
 
   @ManyToMany(() => User, (user) => user.projects)
-  @JoinTable()
+  @JoinTable({
+    name: "project_members_user",
+    joinColumn: {
+      name: "projectId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "userId",
+      referencedColumnName: "id",
+    },
+  })
   members: User[];
 }
