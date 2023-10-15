@@ -2,14 +2,18 @@ import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
 
+import { AppDataSource } from "../../database";
+import User from "../models/User";
+
 interface TokenPayload {
   id: string;
   iat: number;
   exp: number;
 }
 
-export default (req: Request, res: Response, next: NextFunction) => {
+export default async (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
+  const userRepository = AppDataSource.getRepository(User);
 
   if (!authorization) {
     return res
@@ -20,8 +24,17 @@ export default (req: Request, res: Response, next: NextFunction) => {
   const [, token] = authorization.split(" ");
 
   try {
-    const data = jwt.verify(token, process.env.JWT_SECRET);
-    const { id } = data as unknown as TokenPayload;
+    const { id } = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string,
+    ) as TokenPayload;
+    const user = await userRepository.findOneBy({
+      id,
+    });
+
+    if (!user) {
+      throw new Error();
+    }
 
     req.userId = id;
 
