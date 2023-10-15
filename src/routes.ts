@@ -6,6 +6,7 @@ import errorMiddleware from "./app/middlewares/errorMiddleware";
 import { ProjectController } from "./app/controllers/ProjectController";
 import { validateSchema } from "./app/middlewares/validateSchemaMiddleware";
 import { createUserSchema, listUserSchema } from "./app/schemas/userSchema";
+import { createProjectSchema } from "./app/schemas/projectSchema";
 
 const routes = Router();
 
@@ -19,7 +20,11 @@ routes.post(
 routes.use(authMiddleware);
 
 routes.get("/users", validateSchema(listUserSchema), new UserController().list);
-routes.post("/projects", new ProjectController().create);
+routes.post(
+  "/projects",
+  validateSchema(createProjectSchema),
+  new ProjectController().create,
+);
 
 routes.use(errorMiddleware);
 

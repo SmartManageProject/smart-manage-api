@@ -3,12 +3,7 @@ import { AppDataSource } from "../../database";
 import Project from "../models/Project";
 import User from "../models/User";
 import MemberDoesNotExistException from "../exceptions/MemberDoesNotExistException";
-
-type CreateProjectRequest = {
-  name: string;
-  description: string;
-  membersId: string[];
-};
+import { CreateProjectRequest } from "../schemas/projectSchema";
 
 export class CreateProjectService {
   async execute({ name, description, membersId }: CreateProjectRequest) {
