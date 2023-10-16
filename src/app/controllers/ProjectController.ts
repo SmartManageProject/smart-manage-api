@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 import { CreateProjectService } from "../services/CreateProjectService";
 import { CreateProjectRequest } from "../schemas/projectSchema";
+import { GetAllProjectsService } from "../services/GetProjectsByUserIdService";
 
 export class ProjectController {
   async create(
@@ -26,5 +27,12 @@ export class ProjectController {
     } catch (e) {
       return next(e);
     }
+  }
+
+  async list(req: Request, res: Response, next: NextFunction) {
+    const { userId } = req;
+    const service = new GetAllProjectsService();
+    const projects = await service.execute({ userId });
+    return res.json(projects);
   }
 }

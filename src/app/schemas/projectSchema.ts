@@ -19,3 +19,6 @@ export const createProjectSchema = z.object({
 });
 
 export type CreateProjectRequest = TypeOf<typeof createProjectSchema>["body"];
+export type GetAllProjectsRequest = {
+  userId: string;
+};
