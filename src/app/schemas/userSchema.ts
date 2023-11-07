@@ -33,5 +33,12 @@ export const listUserSchema = z.object({
   }),
 });
 
+export const getUserByIdSchema = z.object({
+  params: z.object({
+    id: z.string().uuid(),
+  }),
+});
+
 export type CreateUserRequest = TypeOf<typeof createUserSchema>["body"];
 export type GetAllUsersRequest = TypeOf<typeof listUserSchema>["query"];
+export type GetUserByIdRequest = TypeOf<typeof getUserByIdSchema>["params"];
