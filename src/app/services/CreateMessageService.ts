@@ -21,12 +21,29 @@ export class CreateMessageService {
       throw new Error();
     }
 
-    const message = messageRepository.create({
+    const newMessage = messageRepository.create({
       userId,
       roomId: projectId,
       text,
     });
-    await messageRepository.save(message);
+    await messageRepository.save(newMessage);
+
+    const message = await messageRepository.findOne({
+      relations: ["user"],
+      where: {
+        id: newMessage?.id,
+      },
+      select: {
+        id: true,
+        text: true,
+        user: {
+          name: true,
+          email: true,
+          role: true,
+        },
+        createdAt: true,
+      },
+    });
 
     return message;
   }
