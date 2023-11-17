@@ -12,7 +12,11 @@ const app = express();
 app.use(cors());
 
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 app.use(express.json());
 
