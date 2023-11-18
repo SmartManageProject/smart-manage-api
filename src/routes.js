@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const AuthController_1 = require("./app/controllers/AuthController");
+const UserController_1 = require("./app/controllers/UserController");
+const authMiddleware_1 = __importDefault(require("./app/middlewares/authMiddleware"));
+const errorMiddleware_1 = __importDefault(require("./app/middlewares/errorMiddleware"));
+const ProjectController_1 = require("./app/controllers/ProjectController");
+const validateSchemaMiddleware_1 = require("./app/middlewares/validateSchemaMiddleware");
+const userSchema_1 = require("./app/schemas/userSchema");
+const projectSchema_1 = require("./app/schemas/projectSchema");
+const routes = (0, express_1.Router)();
+routes.post("/authenticate", new AuthController_1.AuthController().authenticate);
+routes.post("/users", (0, validateSchemaMiddleware_1.validateSchema)(userSchema_1.createUserSchema), new UserController_1.UserController().create);
+routes.use(authMiddleware_1.default);
+routes.get("/users", (0, validateSchemaMiddleware_1.validateSchema)(userSchema_1.listUserSchema), new UserController_1.UserController().list);
+routes.get("/users/:id", (0, validateSchemaMiddleware_1.validateSchema)(userSchema_1.getUserByIdSchema), new UserController_1.UserController().findById);
+routes.post("/projects", (0, validateSchemaMiddleware_1.validateSchema)(projectSchema_1.createProjectSchema), new ProjectController_1.ProjectController().create);
+routes.get("/projects", new ProjectController_1.ProjectController().list);
+routes.use(errorMiddleware_1.default);
+exports.default = routes;

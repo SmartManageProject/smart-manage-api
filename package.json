@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/index.ts",
+    "build": "tsc --experimentalDecorators --emitDecoratorMetadata",
     "typeorm": "ts-node-dev node_modules/.bin/typeorm"
   },
   "keywords": [],

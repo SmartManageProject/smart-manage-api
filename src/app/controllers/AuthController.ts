@@ -32,7 +32,10 @@ export class AuthController {
         return next(new UnauthorizedException());
       }
 
-      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: user.id },
+        process.env.JWT_SECRET || "develop",
+      );
 
       return res.status(StatusCodes.OK).json({ id: user.id, token });
     } catch (e) {
