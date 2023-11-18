@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "engines": {
-      "node": "18",
-  }
+      "node": "18"
+  },
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/index.ts",
     "build": "tsc",
