@@ -178,6 +178,67 @@
         }
       }
     },
+    "/users/{id}": {
+      "get": {
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Retrieve User by ID",
+        "description": "This endpoint allows you to retrieve user details by specifying the user's unique ID.",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "The unique ID of the user you want to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "example": "538c8eea-c7f3-4a5b-a155-6e57b3547f99"
+                    },
+                    "name": {
+                      "example": "John Doe"
+                    },
+                    "email": {
+                      "example": "john.doe@email.com"
+                    },
+                    "role": {
+                      "example": "fullstack"
+                    },
+                    "projects": {
+                      "example": [
+                        {
+                          "id": "538c8eea-c7f3-4a5b-a155-6e57b3547f99",
+                          "name": "Fake project name",
+                          "description": "Fake project description"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
     "/projects": {
       "get": {
         "security": [
@@ -270,6 +331,9 @@
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
           "201": {
             "description": "Created",
             "content": {
@@ -301,6 +365,9 @@
       },
       "Unauthorized": {
         "description": "Unauthorized"
+      },
+      "NotFound": {
+        "description": "Resource not found"
       }
     },
 

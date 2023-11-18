@@ -5,7 +5,11 @@ import authMiddleware from "./app/middlewares/authMiddleware";
 import errorMiddleware from "./app/middlewares/errorMiddleware";
 import { ProjectController } from "./app/controllers/ProjectController";
 import { validateSchema } from "./app/middlewares/validateSchemaMiddleware";
-import { createUserSchema, listUserSchema } from "./app/schemas/userSchema";
+import {
+  createUserSchema,
+  getUserByIdSchema,
+  listUserSchema,
+} from "./app/schemas/userSchema";
 import { createProjectSchema } from "./app/schemas/projectSchema";
 
 const routes = Router();
@@ -20,6 +24,11 @@ routes.post(
 routes.use(authMiddleware);
 
 routes.get("/users", validateSchema(listUserSchema), new UserController().list);
+routes.get(
+  "/users/:id",
+  validateSchema(getUserByIdSchema),
+  new UserController().findById,
+);
 routes.post(
   "/projects",
   validateSchema(createProjectSchema),
